@@ -1,5 +1,3 @@
-import { getQueryClient, trpc } from "@/trpc/server"
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
@@ -8,24 +6,17 @@ import {
   UpgradeViewLoading,
   } from "@/modules/premium/ui/views/upgrade-view";
 
-const Page = async () => {
-  const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(
-    trpc.premium.getCurrentSubscription.queryOptions(),
-  )
-  void queryClient.prefetchQuery(
-    trpc.premium.getProducts.queryOptions(),
-  )
+// Force dynamic rendering to prevent prerendering issues
+export const dynamic = 'force-dynamic';
+
+const Page = () => {
   return(
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Suspense fallback={<UpgradeViewLoading />}>
-        <ErrorBoundary fallback={<UpgradeViewError />}>
-          <UpgradeView  />
-        </ErrorBoundary>
-      </Suspense>
-    </HydrationBoundary>
+    <Suspense fallback={<UpgradeViewLoading />}>
+      <ErrorBoundary fallback={<UpgradeViewError />}>
+        <UpgradeView  />
+      </ErrorBoundary>
+    </Suspense>
   );
-
-
 }
+
 export default Page;
