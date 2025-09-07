@@ -1,7 +1,7 @@
 # ConvoGenius 🚀
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.3.2-black)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-Latest-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Latest-blue)](https://www.typescriptlang.org/)
 [![Stream Video](https://img.shields.io/badge/Stream-Video%20%26%20Chat-005FFF)](https://getstream.io/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-412991)](https://openai.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-336791)](https://neon.tech/)
@@ -523,11 +523,13 @@ graph TB
 
 ### Frontend Architecture
 
+**Frontend Architecture**
+
 **Core Framework**
 
-- **Next.js 15.3.2**: React-based full-stack framework
+- **Next.js**: React-based full-stack framework
 - **TypeScript**: Static type checking
-- **Tailwind CSS v4**: Utility-first CSS framework
+- **Tailwind CSS**: Utility-first CSS framework
 - **Framer Motion**: Animation library
 - **GSAP**: Advanced animations and interactions
 
@@ -1192,5 +1194,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Drizzle ORM**: Database toolkit
 
 ---
-
-_Last updated: July 15, 2025_
