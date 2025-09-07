@@ -7,7 +7,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-336791)](https://neon.tech/)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000)](https://vercel.com/)
 
-**Live Demo:** [https://convogenius-beige.vercel.app/](https://convogenius-beige.vercel.app/)
+**Live Demo:** [https://hacksummit-22wy.vercel.app/](https://hacksummit-22wy.vercel.app/)
 
 ## 🎯 Executive Summary
 
