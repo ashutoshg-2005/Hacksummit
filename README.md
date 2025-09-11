@@ -564,102 +564,24 @@ graph TB
 **AI & ML**
 
 - **OpenAI GPT-4**: Language model for agents
-- **Whisper API**: Speech-to-text transcription
-- **Embeddings**: Semantic search capabilities
+- **OpenAI Realtime API**: Real-time voice processing
 
 **Infrastructure**
 
 - **Vercel**: Hosting and deployment
 - **Inngest**: Background job processing
-- **Webhooks**: Event-driven architecture
+- **Neon**: PostgreSQL database hosting
 
 ---
 
-## 🚀 Quick Start Guide
-
-### Prerequisites
-
-```bash
-Node.js >= 18.0.0
-npm >= 9.0.0
-PostgreSQL database
-OpenAI API key
-Stream API credentials
-```
-
-### Installation
-
-1. **Clone the repository**
-
-```bash
-git clone https://github.com/ashutoshg-2005/ConvoGenius.git
-cd ConvoGenius
-```
-
-2. **Install dependencies**
-
-```bash
-npm install --legacy-peer-deps
-```
-
-3. **Environment setup**
-
-```bash
-cp .env.example .env.local
-```
-
-4. **Configure environment variables**
-
-```env
-# Database
-DATABASE_URL="postgresql://user:password@host:port/database"
-
-# Authentication
-BETTER_AUTH_SECRET="your-secret-key"
-BETTER_AUTH_URL="http://localhost:3000"
-
-# OAuth Providers
-GITHUB_CLIENT_ID="your-github-client-id"
-GITHUB_CLIENT_SECRET="your-github-client-secret"
-GOOGLE_CLIENT_ID="your-google-client-id"
-GOOGLE_CLIENT_SECRET="your-google-client-secret"
-
-# Stream Services
-NEXT_PUBLIC_SECRET_STREAM_VIDEO_API_KEY="your-stream-video-key"
-STREAM_VIDEO_SECRET_KEY="your-stream-video-secret"
-NEXT_PUBLIC_STREAM_CHAT_API_KEY="your-stream-chat-key"
-STREAM_CHAT_SECRET_KEY="your-stream-chat-secret"
-
-# OpenAI
-OPENAI_API_KEY="your-openai-api-key"
-```
-
-5. **Database setup**
-
-```bash
-npm run db:push
-```
-
-6. **Start development server**
-
-```bash
-npm run dev
-```
-
-### Deployment
+## 🚀 Deployment
 
 **Vercel Deployment**
 
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
+ConvoGenius is optimized for deployment on Vercel platform with seamless integration.
 
 **Environment Variables (Production)**
-Ensure all environment variables are configured in your Vercel dashboard.
+Ensure all required environment variables are configured in your deployment platform.
 
 ---
 
@@ -734,67 +656,9 @@ src/
 
 ### Code Quality Standards
 
-**TypeScript Configuration**
-
-```json
-{
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noImplicitReturns": true,
-    "noUncheckedIndexedAccess": true
-  }
-}
-```
-
-**ESLint Rules**
-
-```json
-{
-  "extends": ["next/core-web-vitals", "@typescript-eslint/recommended"],
-  "rules": {
-    "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/no-explicit-any": "warn",
-    "prefer-const": "error"
-  }
-}
-```
-
-### Testing Strategy
-
-**Unit Testing**
-
-```bash
-# Jest + React Testing Library
-npm run test
-
-# Coverage report
-npm run test:coverage
-```
-
-**E2E Testing**
-
-```bash
-# Playwright
-npm run test:e2e
-```
-
-**API Testing**
-
-```bash
-# tRPC procedure testing
-npm run test:api
-```
+The project uses modern TypeScript with strict configuration and ESLint for code quality enforcement.
 
 ### Performance Optimization
-
-**Bundle Analysis**
-
-```bash
-# Analyze bundle size
-npm run analyze
-```
 
 **Core Web Vitals**
 
@@ -808,52 +672,7 @@ npm run analyze
 
 ### GitHub Actions Workflow
 
-```yaml
-name: CI/CD Pipeline
-
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run type-check
-      - run: npm run test
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-      - run: npm ci
-      - run: npm run build
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: "--prod"
-```
+The project is configured for automated deployment through Vercel with continuous integration.
 
 ---
 
@@ -864,11 +683,9 @@ jobs:
 ```typescript
 // API router structure
 export const appRouter = router({
-  auth: authRouter, // Authentication endpoints
-  users: usersRouter, // User management
   agents: agentsRouter, // AI agent operations
   meetings: meetingsRouter, // Meeting operations
-  analytics: analyticsRouter, // Analytics data
+  premium: premiumRouter, // Premium/subscription features
 });
 
 export type AppRouter = typeof appRouter;
@@ -942,50 +759,15 @@ agents.getMany: {
 
 **Privacy Compliance**
 
-- **GDPR**: Right to deletion, data portability
-- **CCPA**: California Consumer Privacy Act compliance
-- **HIPAA**: Healthcare data protection (when applicable)
+The application follows modern web security best practices with secure authentication and data protection.
 
 ### Security Monitoring
 
-**Audit Logging**
-
-```typescript
-// Security event logging
-interface SecurityEvent {
-  userId: string;
-  action: string;
-  resource: string;
-  timestamp: Date;
-  ipAddress: string;
-  userAgent: string;
-}
-```
-
-**Rate Limiting**
-
-```typescript
-// API rate limiting
-const rateLimit = {
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP",
-};
-```
+The application includes comprehensive security monitoring and audit capabilities.
 
 ### Vulnerability Management
 
-**Dependency Scanning**
-
-```bash
-# Automated security audits
-npm audit
-npm audit fix
-
-# Snyk integration
-snyk test
-snyk monitor
-```
+The project includes automated dependency scanning and security monitoring to ensure code security and reliability.
 
 ---
 
@@ -993,42 +775,11 @@ snyk monitor
 
 ### Application Performance
 
-**Bundle Size Analysis**
-
-```
-├── Initial Load: 244 kB
-├── Meetings Page: 305 kB
-├── Video Call: 367 kB
-└── Dashboard: 216 kB
-```
-
-**Performance Benchmarks**
-
-- **First Contentful Paint**: 1.2s
-- **Largest Contentful Paint**: 2.1s
-- **Time to Interactive**: 2.8s
-- **Cumulative Layout Shift**: 0.05
+ConvoGenius is optimized for performance with efficient bundle sizes and fast loading times.
 
 ### Database Performance
 
-**Query Optimization**
-
-```sql
--- Indexed queries for optimal performance
-CREATE INDEX idx_meetings_user_id ON meetings(user_id);
-CREATE INDEX idx_meetings_status ON meetings(status);
-CREATE INDEX idx_meetings_created_at ON meetings(created_at);
-```
-
-**Connection Pooling**
-
-```typescript
-// Optimized for serverless environments
-const db = drizzle(pool, {
-  schema,
-  logger: process.env.NODE_ENV === "development",
-});
-```
+The application uses optimized database queries with proper indexing for optimal performance in a serverless environment.
 
 ---
 
@@ -1036,55 +787,11 @@ const db = drizzle(pool, {
 
 ### Application Monitoring
 
-**Error Tracking**
-
-```typescript
-// Sentry integration for error monitoring
-import * as Sentry from "@sentry/nextjs";
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  environment: process.env.NODE_ENV,
-  integrations: [
-    new Sentry.Integrations.Http({ tracing: true }),
-    new Sentry.Integrations.Express({ app }),
-  ],
-  tracesSampleRate: 1.0,
-});
-```
-
-**Performance Monitoring**
-
-```typescript
-// Custom performance metrics
-interface PerformanceMetric {
-  metric: string;
-  value: number;
-  timestamp: Date;
-  metadata: Record<string, any>;
-}
-```
+ConvoGenius includes comprehensive monitoring and error tracking capabilities integrated into the platform.
 
 ### Health Checks
 
-**System Health Endpoint**
-
-```typescript
-// /api/health
-export async function GET() {
-  const healthCheck = {
-    status: "healthy",
-    timestamp: new Date(),
-    services: {
-      database: await checkDatabase(),
-      stream: await checkStreamServices(),
-      openai: await checkOpenAI(),
-    },
-  };
-
-  return Response.json(healthCheck);
-}
-```
+The application includes built-in health check endpoints for monitoring system status and service availability.
 
 ---
 
@@ -1094,33 +801,10 @@ export async function GET() {
 
 1. **Fork the repository**
 2. **Create a feature branch**
-
-```bash
-git checkout -b feature/amazing-feature
-```
-
 3. **Make your changes**
-4. **Run tests**
-
-```bash
-npm run test
-npm run lint
-npm run type-check
-```
-
-5. **Commit your changes**
-
-```bash
-git commit -m "feat: add amazing feature"
-```
-
-6. **Push to your branch**
-
-```bash
-git push origin feature/amazing-feature
-```
-
-7. **Open a Pull Request**
+4. **Commit your changes using conventional commits**
+5. **Push to your branch**
+6. **Open a Pull Request**
 
 ### Code Standards
 
@@ -1149,16 +833,10 @@ chore: maintenance tasks
 
 ### Getting Help
 
-**Community Support**
+**Documentation**
 
-- [GitHub Discussions](https://github.com/ashutoshg-2005/ConvoGenius/discussions)
-- [Documentation Wiki](https://github.com/ashutoshg-2005/ConvoGenius/wiki)
-
-**Technical Documentation**
-
-- [API Reference](./docs/api-reference.md)
-- [Deployment Guide](./docs/deployment.md)
-- [Troubleshooting](./docs/troubleshooting.md)
+- [Live Demo](https://hacksummit-22wy.vercel.app/)
+- [GitHub Repository](https://github.com/ashutoshg-2005/ConvoGenius)
 
 ### Feature Requests
 
