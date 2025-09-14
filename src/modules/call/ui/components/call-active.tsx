@@ -1,6 +1,7 @@
-import { CallControls, SpeakerLayout } from "@stream-io/video-react-sdk";
+import { CallControls, SpeakerLayout, useCallStateHooks, LoadingIndicator } from "@stream-io/video-react-sdk";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface Props{
     onLeave : () => void;   
@@ -8,6 +9,31 @@ interface Props{
 }
 
 export const CallActive = ({ onLeave, meetingName }: Props) => {
+    const { useParticipants, useCallCallingState, useIsCallLive } = useCallStateHooks();
+    const participants = useParticipants();
+    const callingState = useCallCallingState();
+    const isCallLive = useIsCallLive();
+    const [isStabilized, setIsStabilized] = useState(false);
+
+    // More comprehensive state checking
+    const isCallReady = callingState === 'joined' && 
+                       isCallLive && 
+                       participants.length > 0 && 
+                       participants.some(p => p.sessionId && p.userId);
+
+    // Add a small delay to ensure participant state is stabilized
+    useEffect(() => {
+        if (isCallReady) {
+            const timer = setTimeout(() => {
+                setIsStabilized(true);
+            }, 500); // 500ms delay
+            
+            return () => clearTimeout(timer);
+        } else {
+            setIsStabilized(false);
+        }
+    }, [isCallReady]);
+
     return (
         <div className="flex flex-col justify-between p-4 h-screen text-white">
             {/* Header */}
@@ -20,7 +46,13 @@ export const CallActive = ({ onLeave, meetingName }: Props) => {
             
             {/* Main content - video container */}
             <div className="flex-1 min-h-0 relative overflow-hidden rounded-xl mb-2">
-                <SpeakerLayout />
+                {isCallReady && isStabilized ? (
+                    <SpeakerLayout />
+                ) : (
+                    <div className="flex items-center justify-center h-full">
+                        <LoadingIndicator />
+                    </div>
+                )}
             </div>
             
             {/* Footer controls */}
