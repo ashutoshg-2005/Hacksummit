@@ -183,6 +183,17 @@ export const DashboardView = () => {
   const upcomingMeetings = allMeetings?.items?.filter(m => m.status === 'upcoming').length || 0;
   const completedMeetings = allMeetings?.items?.filter(m => m.status === 'completed').length || 0;
   const activeMeetings = allMeetings?.items?.filter(m => m.status === 'active').length || 0;
+  
+  // Calculate meetings completed this month
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+  
+  const thisMonthMeetings = allMeetings?.items?.filter(m => {
+    if (m.status !== 'completed' || !m.endedAt) return false;
+    const meetingDate = new Date(m.endedAt);
+    return meetingDate.getMonth() === currentMonth && meetingDate.getFullYear() === currentYear;
+  }).length || 0;
 
   return (
     <div ref={containerRef} className="flex-1 py-4 px-4 md:px-8 space-y-6">
@@ -260,7 +271,7 @@ export const DashboardView = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              {completedMeetings}
+              {thisMonthMeetings}
             </div>
             <p className="text-xs text-muted-foreground dark:text-gray-400">
               Completed meetings
